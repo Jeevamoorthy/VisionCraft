@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧵 VisionCraft: Industrial Sewing & Workstation Production Intelligence
+# 🧵 SEWAI — Smart Edge Workflow & Production AI
 
 ### Real-Time Worker Pose Estimation • Machine-Centric Piece-Work Counting • Local Multimodal AI Auditing
 
