@@ -1485,7 +1485,7 @@ def run(video_path: str, conf_thres: float, output_path: str, show: bool,
 #  ENTRY POINT
 # ═══════════════════════════════════════════════════════════
 if __name__ == "__main__":
-    DEFAULT_VIDEO = r"person video/Cam_192.168.170.64_2026-09-25_10-53-57.avi"
+    DEFAULT_VIDEO = r"person video/Workers_operating_sewing_machines_1080p_20261008140921.mp4"
 
     ap = argparse.ArgumentParser(
         description="YOLOv8m-pose + ByteTrack | Hand Tracking | "

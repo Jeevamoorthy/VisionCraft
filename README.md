@@ -201,8 +201,8 @@ At the end of a shift or observation session, accumulated telemetry data and cri
 
 ```bash
 # Clone the repository
-git clone https://github.com/Jeevamoorthy/gen-lenin-action.git
-cd gen-lenin-action
+git clone https://github.com/Jeevamoorthy/VisionCraft.git
+cd VisionCraft
 
 # Create a virtual environment
 python3 -m venv .venv
@@ -221,10 +221,14 @@ wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8m-pose
 ```
 
 ### 3. Launch Video Pipeline
-
+ 
 ```bash
-# Run on video file
-python person_tracker.py --video "path/to/factory_cctv.mp4"
+# Run with the default factory 1080p benchmark footage:
+python person_tracker.py --video "person video/Workers_operating_sewing_machines_1080p_20261008140921.mp4"
+
+# Or run Linux / Windows one-click scripts:
+./run_person_tracker.sh          # Linux
+run_person_tracker.bat           # Windows
 
 # Run in headless mode (server / edge deployment)
 python person_tracker.py --video "rtsp://camera-ip/live" --no-show
@@ -251,20 +255,22 @@ If `zones_config.json` does not exist or you want to calibrate a new camera angl
 
 ## 📊 Output Artifacts & Sample Telemetry
 
-Each execution automatically writes:
+Each execution automatically processes the input footage and generates comprehensive audit assets:
 
-1. **Annotated HUD Video** (`*_tracked.avi`):
-   - Overlaid with active pose skeletons, machine boundaries, wrist trajectories, and real-time alert logs.
-2. **Piece Audit Telemetry** (`*_tracked_pieces.csv`):
-   ```csv
-   timestamp,frame,machine,operator_id,cycle_number,transit_time_sec,confidence,payload_score,status
-   00:18.2,462,Machine-2,ID:2,1,0.36,0.84,0.85,CONFIRMED
-   00:37.8,963,Machine-1,ID:6,2,0.36,0.87,0.85,CONFIRMED
-   ```
-3. **Audit Snapshots** (`piece_audit_snapshots/`):
-   - High-resolution frame crops for every cycle (both confirmed and rejected).
-4. **Gemma 3 Markdown Report** (`*_tracked_gemma_efficiency_report.md`):
-   - Formatted industrial engineering summary ready for production managers.
+- **Source Footage (`person video/`)**:
+  - `Workers_operating_sewing_machines_1080p_20261008140921.mp4` — High-definition 1080p factory video feed capturing multiple sewing machine stations.
+- **Annotated HUD Video**:
+  - `Workers_operating_sewing_machines_1080p_20261008140921_tracked.avi` — Overlaid with active pose skeletons, machine boundaries, wrist trajectories, and real-time alert logs.
+- **Piece Audit Telemetry** (`*_tracked_pieces.csv`):
+  ```csv
+  timestamp,frame,machine,operator_id,cycle_number,transit_time_sec,confidence,payload_score,status
+  00:18.2,462,Machine-2,ID:2,1,0.36,0.84,0.85,CONFIRMED
+  00:37.8,963,Machine-1,ID:6,2,0.36,0.87,0.85,CONFIRMED
+  ```
+- **Audit Snapshots** (`piece_audit_snapshots/`):
+  - High-resolution frame crops for every cycle (both confirmed cycles and payload rejections).
+- **Gemma 3 Markdown Report** (`*_tracked_gemma_efficiency_report.md`):
+  - Formatted industrial engineering summary ready for production managers.
 
 ---
 

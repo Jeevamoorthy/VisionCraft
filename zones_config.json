@@ -3,66 +3,111 @@
     "zone_id": 1,
     "name": "Machine-1",
     "bbox": [
-      413,
-      280,
-      652,
-      559
+      710,
+      459,
+      1156,
+      877
     ],
     "source": [
-      567,
-      387,
-      643,
-      486
+      240,
+      322,
+      368,
+      526
     ],
     "destination": [
-      425,
-      398,
-      547,
-      515
+      230,
+      320,
+      360,
+      523
     ]
   },
   {
     "zone_id": 2,
     "name": "Machine-2",
     "bbox": [
-      673,
-      170,
-      942,
-      449
+      1390,
+      306,
+      1789,
+      815
     ],
     "source": [
-      683,
-      336,
-      931,
-      433
+      337,
+      691,
+      556,
+      1048
     ],
-    "destination": [
-      666,
-      237,
-      828,
-      321
-    ]
+    "destination": null
   },
   {
     "zone_id": 3,
     "name": "Machine-3",
     "bbox": [
-      1097,
-      415,
-      1304,
-      748
+      38,
+      645,
+      575,
+      1066
     ],
-    "source": [
-      1051,
-      417,
-      1198,
-      512
+    "source": null,
+    "destination": null
+  },
+  {
+    "zone_id": 4,
+    "name": "Machine-4",
+    "bbox": [
+      48,
+      286,
+      389,
+      542
     ],
-    "destination": [
-      910,
-      474,
-      1044,
-      611
-    ]
+    "source": null,
+    "destination": null
+  },
+  {
+    "zone_id": 5,
+    "name": "Machine-5",
+    "bbox": [
+      496,
+      184,
+      825,
+      436
+    ],
+    "source": null,
+    "destination": null
+  },
+  {
+    "zone_id": 6,
+    "name": "Machine-6",
+    "bbox": [
+      1246,
+      52,
+      1479,
+      275
+    ],
+    "source": null,
+    "destination": null
+  },
+  {
+    "zone_id": 7,
+    "name": "Machine-7",
+    "bbox": [
+      96,
+      106,
+      299,
+      201
+    ],
+    "source": null,
+    "destination": null
+  },
+  {
+    "zone_id": 8,
+    "name": "Machine-8",
+    "bbox": [
+      368,
+      65,
+      491,
+      273
+    ],
+    "source": null,
+    "destination": null
   }
 ]

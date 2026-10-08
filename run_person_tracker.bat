@@ -1,7 +1,7 @@
 @echo off
 echo.
 echo  ============================================================
-echo   YOLOv8m + ByteTrack  Advanced Person Tracker
+echo   VisionCraft: Industrial Sewing & Piece Tracker
 echo   - Draw ROI zones per machine (drag on first frame)
 echo   - Crowding alert (>1 person per zone)
 echo   - Re-ID buffer (3s ghost window)
@@ -11,7 +11,7 @@ echo  ============================================================
 echo.
 cd /d "%~dp0"
 python person_tracker.py ^
-    --video "person video\Cam_192.168.170.64_2026-09-25_10-53-57.avi" ^
+    --video "person video\Workers_operating_sewing_machines_1080p_20261008140921.mp4" ^
     --conf 0.25 ^
     --ghost-sec 3 ^
     --idle-sec 10 ^
