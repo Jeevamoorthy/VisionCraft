@@ -37,6 +37,10 @@
 
 ---
 
+<img width="1890" height="889" alt="image" src="https://github.com/user-attachments/assets/b71153fe-c80a-46df-9d61-ee3a69ddf2a3" />
+
+
+
 ## 🎯 Executive Overview
 
 In textile manufacturing, accurate piece-rate counting and operator efficiency metrics often rely on manual tallies or intrusive hardware sensors that frequently break down.
