@@ -1,0 +1,27 @@
+# Python virtual environment & cache
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.bak
+
+# YOLO weights & model checkpoints
+*.pt
+*.onnx
+*.engine
+
+# Video recordings & outputs
+runs/
+*.avi
+*.mp4
+*.mkv
+person video/*.avi
+person video/*.mp4
+
+# Audit snapshots and temp outputs
+piece_audit_snapshots/
+compress_out put
+
+# IDE configuration
+.vscode/

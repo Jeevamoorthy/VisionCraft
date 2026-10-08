@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: transparent; overflow: hidden; }
+  #wrap {
+    position: relative;
+    display: inline-block;
+    cursor: crosshair;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #bg-canvas, #draw-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    display: block;
+  }
+  #hint {
+    position: absolute;
+    bottom: 6px;
+    left: 8px;
+    color: rgba(255,255,255,0.7);
+    font: 12px/1.4 sans-serif;
+    background: rgba(0,0,0,0.5);
+    padding: 3px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="bg-canvas"></canvas>
+  <canvas id="draw-canvas"></canvas>
+  <div id="hint">Drag to draw · Double-click removes last box</div>
+</div>
+
+<script>
+// ── Streamlit component messaging protocol ─────────────────────────────────
+var IS_STREAMLIT = true;
+
+function sendToStreamlit(type, data) {
+  var msg = Object.assign({ isStreamlitMessage: true, type: type }, data || {});
+  window.parent.postMessage(msg, "*");
+}
+
+function setComponentReady() {
+  sendToStreamlit("streamlit:componentReady", { apiVersion: 1 });
+}
+
+function setComponentValue(value) {
+  sendToStreamlit("streamlit:setComponentValue", { value: value, dataType: "json" });
+}
+
+function setFrameHeight(height) {
+  sendToStreamlit("streamlit:setFrameHeight", { height: height });
+}
+
+// ── Canvas state ────────────────────────────────────────────────────────────
+var boxes = [];
+var drawing = false;
+var startX = 0, startY = 0, curX = 0, curY = 0;
+var W = 750, H = 422;
+var COLORS = ['#00FFFF','#FF8C00','#B469FF','#32CD32','#FF4500','#1E90FF','#FFD700'];
+var bgCtx, ctx;
+
+function initCanvas(w, h) {
+  W = w; H = h;
+  var wrap = document.getElementById('wrap');
+  var bgC = document.getElementById('bg-canvas');
+  var drC = document.getElementById('draw-canvas');
+
+  wrap.style.width  = w + 'px';
+  wrap.style.height = h + 'px';
+  bgC.width  = w; bgC.height  = h;
+  drC.width  = w; drC.height  = h;
+  bgCtx = bgC.getContext('2d');
+  ctx   = drC.getContext('2d');
+
+  setFrameHeight(h + 40);
+}
+
+function drawFrame(b64) {
+  var img = new Image();
+  img.onload = function () { bgCtx.drawImage(img, 0, 0, W, H); };
+  img.src = 'data:image/png;base64,' + b64;
+}
+
+function redraw() {
+  ctx.clearRect(0, 0, W, H);
+
+  boxes.forEach(function (b, i) {
+    var col = COLORS[i % COLORS.length];
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 3;
+    ctx.strokeRect(b.x, b.y, b.w, b.h);
+    ctx.fillStyle = 'rgba(0,210,255,0.10)';
+    ctx.fillRect(b.x, b.y, b.w, b.h);
+
+    // Label background
+    ctx.fillStyle = col;
+    var label = 'Machine ' + (i + 1);
+    ctx.font = 'bold 13px sans-serif';
+    var tw = ctx.measureText(label).width + 10;
+    ctx.fillRect(b.x, b.y, tw, 22);
+    ctx.fillStyle = '#000';
+    ctx.fillText(label, b.x + 5, b.y + 15);
+  });
+
+  if (drawing) {
+    ctx.strokeStyle = '#00FFFF';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 3]);
+    ctx.strokeRect(startX, startY, curX - startX, curY - startY);
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(0,210,255,0.08)';
+    ctx.fillRect(startX, startY, curX - startX, curY - startY);
+  }
+
+  // hint
+  document.getElementById('hint').style.display = boxes.length > 0 ? 'block' : 'none';
+}
+
+function getPos(e) {
+  var r = document.getElementById('draw-canvas').getBoundingClientRect();
+  return { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+
+function bindEvents() {
+  var dc = document.getElementById('draw-canvas');
+
+  dc.addEventListener('mousedown', function (e) {
+    var p = getPos(e);
+    startX = p.x; startY = p.y; curX = p.x; curY = p.y;
+    drawing = true;
+  });
+
+  dc.addEventListener('mousemove', function (e) {
+    if (!drawing) return;
+    var p = getPos(e);
+    curX = p.x; curY = p.y;
+    redraw();
+  });
+
+  dc.addEventListener('mouseup', function (e) {
+    if (!drawing) return;
+    drawing = false;
+    var x = Math.min(startX, curX);
+    var y = Math.min(startY, curY);
+    var w = Math.abs(curX - startX);
+    var h = Math.abs(curY - startY);
+    if (w > 8 && h > 8) {
+      boxes.push({ x: x, y: y, w: w, h: h });
+    }
+    redraw();
+    // ✅ This is the key call — triggers Streamlit Python rerun with box data
+    setComponentValue(boxes.slice());
+  });
+
+  // Double-click removes last box
+  dc.addEventListener('dblclick', function (e) {
+    if (boxes.length > 0) {
+      boxes.pop();
+      redraw();
+      setComponentValue(boxes.slice());
+    }
+  });
+
+  // Mouse leave while drawing
+  dc.addEventListener('mouseleave', function (e) {
+    if (drawing) {
+      drawing = false;
+      redraw();
+    }
+  });
+}
+
+// ── Receive args from Streamlit Python ─────────────────────────────────────
+var initialized = false;
+window.addEventListener('message', function (event) {
+  if (!event.data || event.data.type !== 'streamlit:render') return;
+
+  var args = event.data.args || {};
+
+  if (!initialized) {
+    initCanvas(args.canvas_w || 750, args.canvas_h || 422);
+    drawFrame(args.frame_b64 || '');
+    bindEvents();
+    initialized = true;
+    // Reset boxes if canvas_version changed
+    boxes = [];
+    redraw();
+    setComponentValue([]);
+  } else if (args.reset) {
+    boxes = [];
+    redraw();
+    setComponentValue([]);
+  }
+});
+
+// Signal ready
+setComponentReady();
+</script>
+</body>
+</html>

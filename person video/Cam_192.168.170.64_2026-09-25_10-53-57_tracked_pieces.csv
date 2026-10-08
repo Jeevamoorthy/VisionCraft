@@ -1,0 +1,5 @@
+timestamp_sec,timestamp_str,frame,machine,worker_id,machine_piece_num,cycle_time_sec,transit_sec,confidence,payload_score,payload_confirmed,payload_samples,payload_peak
+4.8,00:04,120,Machine-1,6,1,,0.36,0.87,0.85,True,0,0.374
+6.08,00:06,152,Machine-2,2,1,,1.24,0.91,1.0,True,10,1.0
+18.48,00:18,462,Machine-2,2,2,12.4,0.36,0.84,0.85,True,1,0.644
+38.52,00:38,963,Machine-1,6,2,33.72,0.36,0.87,0.85,True,1,0.586
