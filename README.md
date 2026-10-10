@@ -120,7 +120,7 @@ $$
 \text{COOLDOWN}
 \rightarrow \text{IDLE}
 $$
-
+ 
 ```text
  [ IDLE ] ──(Dwell in Source ≥ 0.3s)──► [ HAND_IN_SRC ]
                                               │
