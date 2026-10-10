@@ -111,11 +111,11 @@ Traditional vision counters tie cycles to person IDs, causing severe inaccuracie
 $$
 \mathrm{IDLE}
 \xrightarrow[\Delta t \geq t_{\mathrm{dwell}}]{\text{Wrist in Source}}
-\mathrm{HAND\_IN\_SOURCE}
+\mathrm{HAND\ IN\ SOURCE}
 \xrightarrow{\text{Motion detected}}
-\mathrm{IN\_TRANSIT}
+\mathrm{IN\ TRANSIT}
 \xrightarrow[\Delta t \geq t_{\mathrm{dwell}}]{\text{Wrist in Destination}}
-\mathrm{HAND\_IN\_DESTINATION}
+\mathrm{HAND\ IN\ DESTINATION}
 \xrightarrow{\text{Payload gate verified}}
 \mathrm{COOLDOWN}
 \rightarrow \mathrm{IDLE}
