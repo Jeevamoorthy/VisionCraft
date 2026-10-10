@@ -108,7 +108,18 @@ flowchart TB
 ### 1. Machine-Centric Finite State Machine
 Traditional vision counters tie cycles to person IDs, causing severe inaccuracies when multiple operators handle a single station or during camera occlusions. This system anchors state transitions strictly to the machine's configured ROIs:
 
-$$\mathbf{IDLE} \xrightarrow[\text{wrist in Source}]{\Delta t \ge t_{\text{dwell}}} \mathbf{HAND\_IN\_SRC} \xrightarrow[\text{wrist leaves Source}]{\text{motion detected}} \mathbf{IN\_TRANSIT} \xrightarrow[\text{wrist in Destination}]{\Delta t \ge t_{\text{dwell}}} \mathbf{HAND\_IN\_DST} \xrightarrow[\text{gate verified}]{\text{cycle committed}} \mathbf{COOLDOWN} \rightarrow \mathbf{IDLE}$$
+$$
+\text{IDLE}
+\xrightarrow[\Delta t \geq t_{\text{dwell}}]{\text{Wrist in Source}}
+\text{HAND\_IN\_SRC}
+\xrightarrow{\text{Wrist leaves Source; motion detected}}
+\text{IN\_TRANSIT}
+\xrightarrow[\Delta t \geq t_{\text{dwell}}]{\text{Wrist in Destination}}
+\text{HAND\_IN\_DST}
+\xrightarrow{\text{Payload gate verified; cycle committed}}
+\text{COOLDOWN}
+\rightarrow \text{IDLE}
+$$
 
 ```text
  [ IDLE ] ──(Dwell in Source ≥ 0.3s)──► [ HAND_IN_SRC ]
