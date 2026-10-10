@@ -109,16 +109,16 @@ flowchart TB
 Traditional vision counters tie cycles to person IDs, causing severe inaccuracies when multiple operators handle a single station or during camera occlusions. This system anchors state transitions strictly to the machine's configured ROIs:
 
 $$
-\text{IDLE}
+\texttt{IDLE}
 \xrightarrow[\Delta t \geq t_{\text{dwell}}]{\text{Wrist in Source}}
-\text{HAND\_IN\_SRC}
+\texttt{HAND\_IN\_SRC}
 \xrightarrow{\text{Wrist leaves Source; motion detected}}
-\text{IN\_TRANSIT}
+\texttt{IN\_TRANSIT}
 \xrightarrow[\Delta t \geq t_{\text{dwell}}]{\text{Wrist in Destination}}
-\text{HAND\_IN\_DST}
+\texttt{HAND\_IN\_DST}
 \xrightarrow{\text{Payload gate verified; cycle committed}}
-\text{COOLDOWN}
-\rightarrow \text{IDLE}
+\texttt{COOLDOWN}
+\rightarrow \texttt{IDLE}
 $$
  
 ```text
